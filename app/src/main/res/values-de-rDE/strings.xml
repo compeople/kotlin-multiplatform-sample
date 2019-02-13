@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="textView_Name">Bitte geben Sie ihren Namen ein</string>
+    <string name="textView_Birthday">Geburtsdatum</string>
+    <string name="editText_surname">Nachname</string>
+    <string name="editText_firstname">Vorname</string>
+    <string name="title_activity_display_results">Ergebnis</string>
+    <string name="btn_birthday">Bitte klicken Sie hier um Ihr Geburtsdatum einzugeben</string>
+    <string name="btn_nextPage">Zeige Ergebnis</string>
+    <string name="female">weiblich</string>
+    <string name="male">männlich</string>
+    <string name="textView_placeholder">Platzhalter</string>
+    <string name="textView_result">Ihre monatlichen Kosten betragen</string>
+</resources>

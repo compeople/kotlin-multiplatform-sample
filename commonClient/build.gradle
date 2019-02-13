@@ -1,0 +1,143 @@
+repositories {
+    mavenCentral()
+    jcenter()
+    maven { url "https://kotlin.bintray.com/kotlin/kotlinx" }
+}
+
+apply plugin: 'maven-publish'
+apply plugin: 'kotlin-multiplatform'
+apply plugin: 'kotlinx-serialization'
+
+
+kotlin {
+    targets {
+        final def iOSTarget = System.getenv('SDK_NAME')?.startsWith("iphoneos")    \
+                                 ? presets.iosArm64 : presets.iosX64
+
+        fromPreset(iOSTarget, 'ios') {
+            binaries {
+                framework {
+                    baseName = 'commonClient'
+                }
+            }
+        }
+        fromPreset(presets.jvm, 'android')
+        fromPreset(presets.js, 'js') {
+            tasks.getByName(compilations.main.compileKotlinTaskName).kotlinOptions {
+                moduleKind = 'commonjs'
+            }
+            // mockk for JS not ready yet for coroutines
+            tasks.compileTestKotlinJs.enabled = false
+        }
+
+        // For ARM, preset should be changed to presets.iosArm32 or presets.iosArm64
+        // For Linux, preset should be changed to e.g. presets.linuxX64
+        // For MacOS, preset should be changed to e.g. presets.macosX64     
+    }
+
+    sourceSets {
+        commonMain {
+            dependencies {
+                api project(':common')
+                implementation "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlin_version"
+                implementation "io.ktor:ktor-client-core:$ktor_version"
+                implementation "io.ktor:ktor-client-json:$ktor_version"
+                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$kotlin_serialization"
+            }
+        }
+        commonTest {
+            dependencies {
+                implementation project(':common')
+                implementation 'org.jetbrains.kotlin:kotlin-test'
+                implementation 'org.jetbrains.kotlin:kotlin-test-junit'
+                implementation 'org.jetbrains.kotlin:kotlin-test-common'
+                implementation 'org.jetbrains.kotlin:kotlin-test-annotations-common'
+                implementation "io.mockk:mockk-common:$kotlin_mockK"
+                implementation "io.ktor:ktor-client-mock:$ktor_version"
+            }
+        }
+        androidMain {
+            dependencies {
+                api project(':common')
+                implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+                implementation "io.ktor:ktor-client-android:$ktor_version"
+                implementation "io.ktor:ktor-client-json-jvm:$ktor_version"
+                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_couroutines"
+            }
+        }
+        androidTest {
+            dependencies {
+                implementation project(':common')
+                implementation 'junit:junit:4.12'
+                implementation 'org.jetbrains.kotlin:kotlin-test'
+                implementation 'org.jetbrains.kotlin:kotlin-test-junit'
+                implementation "io.mockk:mockk:$kotlin_mockK"
+                implementation "io.ktor:ktor-client-mock-jvm:$ktor_version"
+            }
+        }
+        iosMain {
+            dependencies {
+                api project(':common')
+                implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+                implementation "io.ktor:ktor-client-ios:$ktor_version"
+                implementation "io.ktor:ktor-client-json-native:$ktor_version"
+            }
+
+        }
+        iosTest {
+            dependencies {
+                implementation project(':common')
+                implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+                implementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+                implementation "io.ktor:ktor-client-mock-ios:$ktor_version"
+            }
+        }
+        jsMain {
+            dependencies {
+                api project(':common')
+                implementation 'org.jetbrains.kotlin:kotlin-stdlib-js'
+                implementation "io.ktor:ktor-client-js:$ktor_version"
+                implementation "io.ktor:ktor-client-json-js:$ktor_version"
+            }
+        }
+
+        jsTest {
+            dependencies {
+                implementation project(':common')
+                implementation 'org.jetbrains.kotlin:kotlin-test-js'
+
+                // mockk for JS not ready yet for coroutines
+                // implementation "io.mockk:mockk-js:1.7.17"
+            }
+        }
+    }
+}
+
+// workaround for https://youtrack.jetbrains.com/issue/KT-27170
+/*
+configurations {
+    compileClasspath
+} */
+
+
+task packForXCode(type: Sync) {
+    final File frameworkDir = new File(buildDir, "xcode-frameworks")
+    final String mode = project.findProperty("XCODE_CONFIGURATION")?.toUpperCase() ?: 'DEBUG'
+
+    inputs.property "mode", mode
+
+    def binary = kotlin.targets.ios.compilations.main.target.binaries.findFramework("", mode)
+    dependsOn binary.linkTask
+
+    from { binary.outputFile.parent }
+    into frameworkDir
+
+    doLast {
+        new File(frameworkDir, 'gradlew').with {
+            text = "#!/bin/bash\nexport 'JAVA_HOME=${System.getProperty("java.home")}'\ncd '${rootProject.rootDir}'\n./gradlew \$@\n"
+            setExecutable(true)
+        }
+    }
+}
+
+tasks.build.dependsOn packForXCode

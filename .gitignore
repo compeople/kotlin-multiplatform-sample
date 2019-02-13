@@ -1,0 +1,11 @@
+build
+.gradle
+.idea/*
+out
+*.iml
+local.properties
+app/build
+classes
+native/iosApp/iosApp.xcodeproj/project.xcworkspace
+native/iosApp/iosApp.xcodeproj/xcuserdata
+

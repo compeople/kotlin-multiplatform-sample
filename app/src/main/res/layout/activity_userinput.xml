@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             tools:context=".view.UserInputActivity">
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp" android:layout_marginEnd="8dp" app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintVertical_bias="1.0">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:orientation="vertical" android:id="@+id/layout1">
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:ems="10"
+                    android:id="@+id/editText_firstname" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    android:hint="@string/editText_firstname"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                    android:layout_weight="1" app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintVertical_chainStyle="packed" android:layout_marginBottom="10dp"
+                    app:layout_constraintBottom_toTopOf="@+id/editText_surname"
+                    app:layout_constraintVertical_bias="0.0"/>
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:ems="10"
+                    android:id="@+id/editText_surname" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    android:hint="@string/editText_surname"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                    android:layout_weight="1"
+                    app:layout_constraintTop_toBottomOf="@+id/editText_firstname"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toTopOf="@+id/datePicker_Birthday"/>
+            <DatePicker
+                    android:id="@+id/datePicker_Birthday"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:layout_constraintTop_toBottomOf="@+id/editText_surname"
+                    app:layout_constraintBottom_toTopOf="@+id/radioGroup_gender"
+                    android:layout_marginBottom="8dp"
+                    style="@style/MyDatePickerStyle">
+            </DatePicker>
+            <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:layout_weight="1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    android:id="@+id/radioGroup_gender"
+                    android:layout_marginBottom="0dp"
+                    app:layout_constraintBottom_toTopOf="@+id/btn_continue"
+                    android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/datePicker_Birthday">
+                <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/radioBtn_female"
+                        android:layout_weight="1"
+                        android:text="@string/female"/>
+                <RadioButton
+                        android:text="@string/male"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/radioBtn_male"
+                        android:layout_weight="1"/>
+                <RadioButton
+                        android:text="@string/divers"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/radioBtn_divers"
+                        android:layout_weight="1"/>
+            </RadioGroup>
+            <Button
+                    android:text="@string/btn_nextPage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_continue"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="32dp" app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/radioGroup_gender"
+                    android:background="@color/colorButtonAccent"/>
+        </LinearLayout>
+    </ScrollView>
+    <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp"
+            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="8dp"/>
+
+</android.support.constraint.ConstraintLayout>
+
+

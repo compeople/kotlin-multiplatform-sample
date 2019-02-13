@@ -1,0 +1,79 @@
+apply plugin: 'kotlin2js'
+apply plugin: 'kotlin-dce-js'
+apply plugin: 'kotlinx-serialization'
+apply plugin: 'org.jetbrains.kotlin.frontend'
+
+repositories {
+    google()
+    mavenCentral()
+    jcenter()
+    maven { url 'https://kotlin.bintray.com/kotlin-js-wrappers' }
+    maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
+    maven { url "https://kotlin.bintray.com/kotlinx" }
+    maven { url "http://dl.bintray.com/kotlin/kotlinx.html" }
+}
+
+
+dependencies {
+    compile project(':common')
+    compile project(':commonClient')
+    compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+    compile "io.ktor:ktor-client-js:$ktor_version"
+    compile "io.ktor:ktor-client-json-js:$ktor_version"
+
+    compile "org.jetbrains:kotlin-react:$kotlin_react"
+    compile "org.jetbrains:kotlin-react-dom:$kotlin_react"
+
+    testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
+}
+
+kotlinFrontend {
+    downloadNodeJsVersion = "latest"
+    define "PRODUCTION", false
+
+    webpackBundle {
+        bundleName = "main"
+        sourceMapEnabled = true // enable/disable source maps
+        contentPath = file('public')
+        publicPath = "/"  // web prefix
+        host = "localhost" // dev server host
+        port = 8088   // dev server port
+//      proxyUrl = "" | "http://...."  // URL to be proxied, useful to proxy backend webserver
+//      stats = "errors-only"  // log level
+    }
+
+    npm {
+        dependency("react", "^16.6.3")
+        dependency("react-dom", "^16.6.3")
+        dependency("core-js", "2.6.4")
+        dependency("text-encoding", "^0.7.0")
+        devDependency("style-loader", "0.23.1")
+        devDependency("css-loader", "2.1.0")
+        devDependency("file-loader", "3.0.1")
+        devDependency("webpack-cli", "3.1.2")
+    }
+}
+
+// kotlin2js configuration
+compileKotlin2Js {
+    kotlinOptions {
+        metaInfo = true
+        outputFile = "$project.buildDir.path/js/${project.name}.js"
+        sourceMap = true
+        moduleKind = 'commonjs'
+        main = "call"
+    }
+}
+
+compileTestKotlin2Js {
+    kotlinOptions.metaInfo = true
+    kotlinOptions.outputFile = "$project.buildDir.path/js-tests/${project.name}-tests.js"
+    kotlinOptions.sourceMap = true
+    kotlinOptions.moduleKind = 'commonjs'
+    kotlinOptions.main = "call"
+}
+
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.10.1'
+}

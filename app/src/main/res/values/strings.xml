@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name" translatable="false">Mpp Insurance Calc</string>
+    <string name="textView_Name">Please enter your name</string>
+    <string name="textView_Birthday">Birthday</string>
+    <string name="editText_surname">surname</string>
+    <string name="editText_firstname">first name</string>
+    <string name="title_activity_display_results">result</string>
+    <string name="btn_birthday">click here to enter your birthday</string>
+    <string name="btn_nextPage">show results</string>
+    <string name="female">female</string>
+    <string name="male">male</string>
+    <string name="divers" translatable="false">divers</string>
+    <string name="textView_placeholder">placeholder</string>
+    <string name="textView_result">Your monthly cost are</string>
+</resources>
