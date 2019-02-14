@@ -17,6 +17,7 @@ class TarifClient(internal val httpClient: HttpClient) {
     // https://github.com/Kotlin/kotlinx.serialization/blob/master/runtime/native/src/main/kotlin/kotlinx/serialization/Platform.kt
     suspend fun getTarif(): Tarif =
             //TODO(insert your local server ip here)
+            //for android use https://kotlinmultiplatformshowcase.azurewebsites.net/tarif
             httpClient.call("http://localhost:8080/tarif") {
                 method = HttpMethod.Get
             }.response.readText().parseTarifJson()
