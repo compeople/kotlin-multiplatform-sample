@@ -2,9 +2,10 @@
 
 This is an example project to test the possibilities of the Kotlin multiplatform technology. 
 It takes a name, birthday and gender and calculate a random monthly insurance cost.
-It targets android, iOS and web. 
+It targets android, iOS and web.
 
 ##### Demo Web  (written with kotlin/JS and kotlin-react)
+Feel free to try it yourself https://compeople.github.io/kotlin-multiplatform-sample/ \
 ![webDemo](art/webAppGifLow.gif)
 
 ##### Demo android (written completely in kotlin) 
