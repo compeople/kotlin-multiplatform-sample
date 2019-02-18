@@ -62,8 +62,13 @@ There a Tests in the common and the commonClient module. To run the Test use:
 At the moment the tests for js are disabled, because mockk for JS is not ready yet for coroutines.
 
 ## Architecture
-A simple block architecture for a quickly overview:
-<br /> ![blockarchitecture](art/BlockArchitecture.png) <br />
+##### A simple block architecture for a quickly overview:
+![blockarchitecture](art/BlockArchitecture.png)
+
+##### A detail Architecture: 
+![Architekture](art/ArchitectureBold.png)
+interfaces are marked orange
+
 
 ## Built With
 + [Gradle](https://gradle.org/) - Dependency Management
