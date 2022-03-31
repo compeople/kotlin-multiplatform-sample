@@ -78,4 +78,4 @@ interfaces are marked orange
 + [mockK](https://mockk.io/) - mocking library 
 
 ## License
-This project is licensed under the MIT License.
+This project is licensed under the MIT License
